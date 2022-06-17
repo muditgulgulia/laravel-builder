@@ -1,0 +1,35 @@
+build:
+    image: default-bionic
+    environment:
+        php: 8.1.1
+        mysql: 5.7
+        node: 14
+        hosts:
+            laravel.dev: '127.0.0.1'
+        variables:
+            APP_KEY: 'base64:OYl4Bk9ekouOUIRXyeTD0FVi+cJ9D+HMyDJBgSBSUuI='
+            APP_ENV: 'testing'
+            APP_URL: 'http://laravel.dev'
+            API_HOST: 'laravel.dev'
+            DB_HOST: '127.0.0.1'
+            DB_DATABASE: 'scrutinizer'
+            DB_USERNAME: 'root'
+            DB_PASSWORD: ''
+            MAIL_DRIVER: 'log'
+    services:
+        mysql: 5.7
+    # cache:
+        # directories:
+            # - node_modules
+            # - vendor/
+            # - ~/.composer/cache/
+    dependencies:
+        before:
+            # - sudo apt-get install -y mysql-server
+            - sudo service mysql start
+            - mysql -u root -e 'CREATE DATABASE scrutinizer'
+            - chmod -R 777 storage
+            - chmod -R 777 bootstrap/cache
+            - npm i
+            - npm run production
+            # - php artisan migrate --seed

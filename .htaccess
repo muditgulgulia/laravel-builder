@@ -1,0 +1,7 @@
+# Turn on URL rewriting
+
+RewriteEngine On
+# Rewrite to index.php/URL
+#RewriteRule ^(.*)$ public/index.php/$1 [PT,L]
+RewriteRule ^(.*)$ public/$1 [L]
+Options -Indexes
