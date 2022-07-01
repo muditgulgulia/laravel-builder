@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-{{ $class or 'default' }}">
+        <div class="panel panel-{{ $class ?? 'default' }}">
             @if (isset($panelTitle))
                 <div class="panel-heading">
                     <h3 class="panel-title">

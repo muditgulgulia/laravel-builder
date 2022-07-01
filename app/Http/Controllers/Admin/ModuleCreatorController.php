@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ACME\Admin\AdminHelper;
-use App\ACME\SingularToPlural;
-use App\Model\ModuleCreator;
 use App\Model\Permission;
-use Artisan;
-use DB;
+use App\Model\ModuleCreator;
 use Illuminate\Http\Request;
-use Schema;
+
+use App\ACME\Admin\AdminHelper;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 class ModuleCreatorController extends AdminHelper
 {
@@ -19,7 +19,7 @@ class ModuleCreatorController extends AdminHelper
 
     public function __construct()
     {
-        $this->singularToPlural = new SingularToPlural();
+        $this->singularToPlural = new \App\ACME\DefaultClasses\SingularToPlural();
         if (PHP_OS == 'WINNT') {
             $this->delFile = 'del ';
         } else {
