@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Permission;
-use App\Model\ModuleCreator;
-use Illuminate\Http\Request;
-
 use App\ACME\Admin\AdminHelper;
+use App\Model\ModuleCreator;
+use App\Model\Permission;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Artisan;
 
 class ModuleCreatorController extends AdminHelper
 {
@@ -69,7 +68,7 @@ class ModuleCreatorController extends AdminHelper
         $makeControllerCommand = Artisan::output();
 
 //        $makeModelFile = "php ../artisan make:model Model/" . ucwords($request->module_name);
-//        $makeControllerCommand = "php ../artisan make:controller " . $request->controller_related_to . '/' . ucwords($request->module_name) . 'Controller';
+        //        $makeControllerCommand = "php ../artisan make:controller " . $request->controller_related_to . '/' . ucwords($request->module_name) . 'Controller';
 
         //view creation
         $createViewFolder = $this->createViews($request);
@@ -159,7 +158,7 @@ class ModuleCreatorController extends AdminHelper
 
             $makeMigrationCommand = 'php ' . base_path() . $this->separators . 'artisan make:migration:schema create_' . $migrationName . '_table --model=0 --schema="';
             $makeMigrationCommand = $this->getAllMigrationFields($allMigrationFields, $makeMigrationCommand);
-            $makeMigrationCommand = str_replace_last(',', '"', $makeMigrationCommand);
+            $makeMigrationCommand = \Illuminate\Support\Str::replaceLast(',', '"', $makeMigrationCommand);
             exec($makeMigrationCommand);
 
             //ToDO : change find command for windows (without change make migration field empty and not delete when module delete)
@@ -307,8 +306,8 @@ class ModuleCreatorController extends AdminHelper
     {
         $migrationName = $this->singularToPlural->underscore($this->singularToPlural->pluralize($findModuelExistOrNot->module_name));
 //        $tables = DB::select('SHOW TABLES');
-//        foreach ($tables as $table) {
-//            foreach ($table as $key => $value) {
+        //        foreach ($tables as $table) {
+        //            foreach ($table as $key => $value) {
         if (Schema::hasTable($migrationName) == 1) {
 
             DB::beginTransaction();
@@ -318,7 +317,7 @@ class ModuleCreatorController extends AdminHelper
             DB::commit();
         }
 //            }
-//        }
+        //        }
         return $migrationName;
     }
 
